@@ -1,34 +1,46 @@
-import logo from "./logo.svg";
-import MyFirstComponent from "./components/myFirstComponent";
-import MySecondComponent from "./components/mySecondComponent";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+
+import DashboardLayout from "./dashboardLayout";
+import ProductLayout from "./ProductLayout";
+import Dashboard from "./pages/dashboard/dasboard";
+import Profile from "./pages/dashboard/profile";
+import Products from "./pages/product/products";
+import ProductDetails from "./pages/product/productDetail";
+import UserPortfolio from "./pages/user/PortFolio";
+import Account from "./pages/user/account";
+import UserLayout from "./Layouts/UserLayout";
+import NoMatch from "./noMatch";
 import "./App.css";
 import { useState } from "react";
 function App() {
-  let [name, upadatingName] = useState("");
-  let updatename = (e) => {
-    upadatingName(e.target.value);
-  };
   return (
-    <div className="App">
-      <p>kia ye work kry ga{name}</p>
-      {name && <MySecondComponent />}
-      <header className="App-header">
-        <input value={name} onChange={updatename} />
-        <img src={logo} className="App-logo" alt="logo" />
-        <MyFirstComponent name={name} />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Link to="/dashboard">Dashboard</Link>
+      <br />
+      <Link to="/products">Products</Link>
+      <br />
+      <Link to="/user">User</Link>
+      <br />
+      <Routes>
+        <Route path="dashboard" element={<DashboardLayout />}>
+          <Route index element={<Dashboard />}></Route>
+          <Route path="profile" element={<Profile />}></Route>
+          <Route path="*" element={<NoMatch />} />
+        </Route>
+        <Route path="products" element={<ProductLayout />}>
+          <Route index element={<Products />}></Route>
+          <Route path="productsdetail" element={<ProductDetails />}></Route>
+          <Route path="*" element={<NoMatch />} />
+        </Route>
+        <Route path="user" element={<UserLayout />}>
+          <Route index element={<Account />}></Route>
+          <Route path="account" element={<Account />}></Route>
+          <Route path="portfolio" element={<UserPortfolio />}></Route>
+          <Route path="*" element={<NoMatch />} />
+        </Route>
+        <Route path="*" element={<NoMatch />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
